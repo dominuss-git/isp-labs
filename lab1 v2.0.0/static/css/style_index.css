@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  background: rgba(35, 1, 255, 1.0);
+  background: -webkit-radial-gradient(center, rgba(35, 1, 255, 1.0), rgba(26, 32, 133, 1.0));
+  background: -moz-radial-gradient(center, rgba(35, 1, 255, 1.0), rgba(26, 32, 133, 1.0));
+  background: radial-gradient(ellipse at center, rgba(35, 1, 255, 1.0), rgba(26, 32, 133, 1.0));
+  /* background: rgb(20,23,213);
+  background: linear-gradient(245deg, rgba(20,23,213,1) 14%, rgba(148,187,233,1) 100%); */
+  background-repeat: no-repeat;
+}
+
+body {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  /* justify-content: space-between; */
+}
+
+.wrapper {
+  align-self: center;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+.wrapper__form {
+  display: flex;
+  justify-content: row;
+}
+
+.form__button {
+  margin: 0 0 0 10px;
+  height: 41px;
+  align-self: center;
+  color: #232323;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  position: relative;
+  font-size: 14px;
+  letter-spacing: .3em;
+  font-family: 'Montserrat', sans-serif;
+  padding: 17px 34px 17px 39px;
+  transition: .2s ease-in-out;
+  cursor: pointer;
+}
+
+.form__button::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 31, 133, 1);
+  z-index: -1;
+  transition: .25s ease;
+  transform: translate(0, 0);
+}
+
+.form__button:hover::before {
+  transform: translate(4px, 4px);
+}
+
+h1 {
+  /* color: #fff; */
+}
+
+.group {
+  position: relative;
+  margin-bottom: 30px;
+  margin: 20px 0;
+}
+  
+input {
+  font-size: 16px;
+  padding: 10px;
+  display: block;
+  background-color: rgba(26, 31, 133, 1);
+  width: 300px;
+  border: none;
+  border-bottom: 1px solid #fff;
+}
+
+input:focus {
+  background-color: rgba(26, 31, 133, 1);
+  color: #fff;
+  outline: none;
+}
+
+label {
+  color: #fff;
+  font-size: 18px;
+  position: absolute;
+  pointer-events: none;
+  left: 10px;
+  top: 15px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+input:focus ~ label, input:valid ~ label {
+  top: -15px;
+  font-size: 14px;
+  /* color: #5264AE; */
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 320px;
+}
+.bar:before, .bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 0;
+  position: absolute;
+  background: #5264AE;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+.bar:before {
+  left: 50%;
+}
+.bar:after {
+  right: 50%;
+}
+
+input:focus ~ .bar:before,
+input:focus ~ .bar:after {
+  width: 50%;
+}

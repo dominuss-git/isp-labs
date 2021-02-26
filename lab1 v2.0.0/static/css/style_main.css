@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+html {
+  height: 100%;
+  width: 100%;
+  background: rgba(35, 1, 255, 1.0);
+  background: -webkit-radial-gradient(center, rgba(35, 1, 255, 1.0), rgba(26, 32, 133, 1.0));
+  background: -moz-radial-gradient(center, rgba(35, 1, 255, 1.0), rgba(26, 32, 133, 1.0));
+  background: radial-gradient(ellipse at center, rgba(35, 1, 255, 1.0), rgba(26, 32, 133, 1.0));
+  background-repeat: no-repeat;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.wrapper {
+  color : #fff;
+  align-self: center;
+}
+
+.wrapper__todo-active {
+  text-decoration: line-through;
+}
+
+.form-group {
+  position: relative;
+  padding-top: 1.5rem;
+  margin: 0 10px 0 0;
+}
+
+.input__wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.add_message {
+    background-color: green;
+    height: 22px;
+    color: #fff;
+    margin: 22px 0 0 0;
+}
+
+label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: var(--font-size-small);
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.2s ease-out;
+}
+ 
+input:placeholder-shown + label {
+  opacity: 0;
+  transform: translateY(1rem);
+}
