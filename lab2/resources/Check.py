@@ -85,7 +85,9 @@ def CheckDeserialize(path_to_obj, path_to_file, file_mode, extension):
     except:
       print("error: no such file for deserializition")
       return
-
+  else:
+    path_to_obj = None
+  CreateDeserializator(path_to_file, path_to_obj, extension)
   # print(path_to_obj, path_to_file, file_mode, "deserialize", sep="\n")
 
 # ---------------------------------------------------------------------
@@ -101,10 +103,23 @@ def CreateSerializator(obj, path, extension):
     serializator = Toml()
   else:
     serializator = Json()
+
   # print(serializator)
   if path == False:
     serializator.dumps(obj)
   else:
     serializator.dump(obj, path)
 
+# ----------------------------------------------------------------------
+
+def CreateDeserializator(fl, obj, extension):
+  if extension == ".p":
+    serializator = Pickle()
+  elif extension == ".yaml":
+    serializator = Yaml()
+  elif extension == ".toml":
+    serializator = Toml()
+  else:
+    serializator = Json()
   
+  print(fl, obj, extension, sep="\n")
