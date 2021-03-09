@@ -37,8 +37,10 @@ def Check(args):
       return
     extension2 = path_to_file[index:].lower()
 
-    if extension2 != ".json" and extension2 != ".yaml" and \
-     extension2 != ".p" and extension2 != ".toml":
+    if extension2 != ".json" and \
+    extension2 != ".yaml" and \
+    extension2 != ".p" and \
+    extension2 != ".toml":
       print(f"error: unknown extension {extension2}")
       return
   
@@ -50,10 +52,8 @@ def Check(args):
   extension = ""
   if args.path_to_file != None:
     index = path_to_file.find(".")
-    if index == -1:
-      print(f"error: unknown extension: {path_to_file}")
-      return
-    extension = path_to_file[index:].lower() 
+    if index != -1:
+      extension = path_to_file[index:].lower() 
 
   args.serialize(path_to_obj, path_to_file, extension2, extension)
 
@@ -67,13 +67,10 @@ def CheckSerialize(path_to_obj, path_to_file, file_mode, extension):
   except:
     print("error: object is not defined")
     return
-  class_name = [obj for obj in dir(obj) if not obj.startswith("__")]
-
-  obj_for_serialize = obj.__getattribute__(class_name[0])
   if file_mode == False:
     path_to_file = False
   # print(obj_for_serialize, path_to_file, file_mode, sep="\n")
-  CreateSerializator(obj_for_serialize, path_to_file, extension)
+  CreateSerializator(obj, path_to_file, extension)
   
 # ----------------------------------------------------------------------
 
@@ -106,7 +103,7 @@ def CreateSerializator(obj, path, extension):
 
   # print(serializator)
   if path == False:
-    serializator.dumps(obj)
+    print (serializator.dumps(obj))
   else:
     serializator.dump(obj, path)
 
@@ -117,9 +114,18 @@ def CreateDeserializator(fl, obj, extension):
     serializator = Pickle()
   elif extension == ".yaml":
     serializator = Yaml()
-  elif extension == ".toml":
+  elif extension == ".toml" or fl[0] == "[":
     serializator = Toml()
   else:
     serializator = Json()
   
-  print(fl, obj, extension, sep="\n")
+  # print(extension == "")
+  # print(serializator)
+
+  if extension == "":
+    serializator.loads(fl)
+    # print(strs_s)
+  else:
+    serializator.load(fl)
+
+  # print(fl, obj, extension, sep="\n")
