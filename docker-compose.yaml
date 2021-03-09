@@ -1,0 +1,21 @@
+version: "3"
+
+volumes:
+  mongodb_volume:
+
+services:
+  lab1:
+    build: lab1v2.0.0/
+    restart: always
+    ports:
+      - 3030:8080
+    environment:
+      - MONGO_DB_ADDR=mongodb
+      - MONGO_DB_PORT=27017
+      - STORAGE_SERVICE_IMPLS=MongodbService
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb_volume:/data/db
+    restart: always
