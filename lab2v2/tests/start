@@ -1,0 +1,51 @@
+# !bin/bash
+
+value=$(./simpleObjectTest/test1.py)
+echo "$value"
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./simpleObjectTest/test2.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./simpleObjectTest/test3.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./simpleObjectTest/test4.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./writeToFile/test1.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+
+
+
+
+

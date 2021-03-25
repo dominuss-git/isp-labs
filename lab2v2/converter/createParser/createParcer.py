@@ -1,3 +1,7 @@
+# import sys
+
+# sys.path.append('../converter')
+
 from services.Yaml import Yaml
 from services.Json import Json
 from services.Toml import Toml
@@ -9,7 +13,7 @@ import logging
 class CreateSerializator:
   def serialize(self, obj, /, format='JSON',  * , file_path=None):
     self.serializer = None
-    print(format, obj)
+    # print(format, obj, end=" ")
 
     if format == 'JSON':
       self.serializer = Json()
@@ -24,7 +28,7 @@ class CreateSerializator:
       exit()
 
     if file_path is None:
-      self.serializer.dumps(obj)
+      return self.serializer.dumps(obj)
     else:
       with open(file_path, 'w', encoding='UTF-8') as f:
         return self.serializer.dump(obj, f)
@@ -44,7 +48,7 @@ class CreateDeserializator:
     elif format == 'PICKLE':
       self.deserializer = Pickle()
     else:
-      logging.error("Unsupported type")
+      logging.error(f"Unsupported type {format}")
       exit()
 
     if file_mode is False:
@@ -53,8 +57,7 @@ class CreateDeserializator:
       with open(string, 'r', encoding='UTF-8') as f:
         out = self.deserializer.load(f)
 
-    if normalize:
-      print(type(out), out)
+    if normalize and format != 'PICKLE':
       return self.normalizer(out)
     else:
       return out

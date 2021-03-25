@@ -39,15 +39,67 @@ class Toml:
     return toml.dumps(self._prepare(obj, True))
 
   def load(self, file_stream):
-    return toml.load(file_stream)
+    return self._out(toml.load(file_stream), mode=True)
 
   def loads(self, string):
-    return toml.loads(string)
+    return self._out(toml.loads(string), mode=True)
+
+  def _out(self, obj, *, mode=False):
+    if isinstance(obj, dict):
+      if '__list__' in obj.keys():
+        # if mode:
+        obj = pickle.loads(base64.b64decode(obj['__list__']))
+        obj = self._out(obj)
+        # print(obj)
+        return obj
+        # else :
+        #   obj = pickle.loads(base64.b64decode(obj['__list__']))
+        #   obj = self._out(obj)
+        #   return obj
+
+      if '__val__' in obj.keys():
+        return obj['__val__']
+
+      if '__NoneVal__' in obj.keys():
+        # print(obj)
+        return None
+
+      for key, value in obj.items():
+        if isinstance(value, dict):
+          obj[key] = self._out(value)
+
+          return obj
+
+        elif key == '__list__':
+          obj[key] = self._out(obj[key])
+
+          return obj
+
+    if isinstance(obj, list):
+      for index in range(len(obj)):
+        # print(obj[index])
+        obj[index] = self._out(obj[index])
+        # print(obj)
+
+      # return obj
+    # print(obj)
+    return obj
+
 
   def _prepare(self, obj, mode=False):
-    if isinstance(obj, (int, float, int, bool, str)) or \
-      obj is None:
+    if isinstance(obj, (int, float, int, bool, str)):
+      if mode:
+        return {
+          "__val__" : obj, 
+        }
+
+      else:
         return obj
+
+    elif obj is None:
+      return {
+          "__NoneVal__" : "None", 
+      }
 
     elif isinstance(obj, (set, tuple)):
       s_obj = str(base64.b64encode(pickle.dumps(obj)))
@@ -61,12 +113,11 @@ class Toml:
       for index in range(len(obj)):
         obj[index] = self._prepare(obj[index])
 
-      if mode:
-        return { 
-          "name" : obj
-        }
-      else :
-        return obj
+      s_obj = str(base64.b64encode(pickle.dumps(obj)))
+
+      return { 
+        "__list__" : s_obj[2:len(s_obj) - 1]
+      }
     
     elif isinstance(obj, types.FunctionType):
       s_obj = str(base64.b64encode(pickle.dumps(obj)))
