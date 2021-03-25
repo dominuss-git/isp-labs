@@ -1,0 +1,19 @@
+[
+  null,
+  true,
+  false,
+  {
+    "__type__": "<class 'set'>",
+    "__base64__": "gASVDQAAAAAAAACPlChLAUsCSwNLBJAu"
+  },
+  {
+    "a": 1,
+    "b": 2,
+    "c": [
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+]
