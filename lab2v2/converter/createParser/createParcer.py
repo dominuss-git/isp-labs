@@ -1,7 +1,3 @@
-# import sys
-
-# sys.path.append('../converter')
-
 from services.Yaml import Yaml
 from services.Json import Json
 from services.Toml import Toml
@@ -30,8 +26,12 @@ class CreateSerializator:
     if file_path is None:
       return self.serializer.dumps(obj)
     else:
-      with open(file_path, 'w', encoding='UTF-8') as f:
-        return self.serializer.dump(obj, f)
+      if format == 'PICKLE':
+        with open(file_path, 'wb') as f:
+          return self.serializer.dump(obj, f)
+      else:
+        with open(file_path, 'w', encoding='UTF-8') as f:
+          return self.serializer.dump(obj, f)
     
 
 
@@ -54,10 +54,18 @@ class CreateDeserializator:
     if file_mode is False:
       out = self.deserializer.loads(string)
     else:
-      with open(string, 'r', encoding='UTF-8') as f:
-        out = self.deserializer.load(f)
+      if format == 'PICKLE':
+        with open(string, 'rb') as f:
+          out = self.deserializer.load(f)
 
-    if normalize and format != 'PICKLE':
+      else:
+        with open(string, 'r', encoding='UTF-8') as f:
+          out = self.deserializer.load(f)
+    
+
+
+    if normalize:
+      # print("hi")
       return self.normalizer(out)
     else:
       return out
@@ -65,6 +73,7 @@ class CreateDeserializator:
   def normalizer(self, obj):
     if isinstance(obj, (bool, str, int, float, complex)):
       return obj
+      pass
     
     elif isinstance(obj, list):
       for index in range(len(obj)):
@@ -74,11 +83,13 @@ class CreateDeserializator:
 
     elif isinstance(obj, dict):
       if '__base64__' in obj.keys():
+        # print(pickle.loads(base64.b64decode(obj['__base64__'])))
         return pickle.loads(base64.b64decode(obj['__base64__']))
-
+        pass
       else:
         for key, value in obj.items():
           obj[key] = self.normalizer(value)
 
-        return obj
+        # print (obj)
 
+        return obj

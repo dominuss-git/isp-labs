@@ -47,41 +47,40 @@ class Toml:
   def _out(self, obj, *, mode=False):
     if isinstance(obj, dict):
       if '__list__' in obj.keys():
-        # if mode:
+        # print(obj)
         obj = pickle.loads(base64.b64decode(obj['__list__']))
         obj = self._out(obj)
-        # print(obj)
         return obj
-        # else :
-        #   obj = pickle.loads(base64.b64decode(obj['__list__']))
-        #   obj = self._out(obj)
-        #   return obj
 
-      if '__val__' in obj.keys():
-        return obj['__val__']
+      if isinstance(obj, dict):
+        if '__val__' in obj.keys():
+          return obj['__val__']
 
-      if '__NoneVal__' in obj.keys():
-        # print(obj)
-        return None
+        if '__NoneVal__' in obj.keys():
+          # print(obj)
+          return None
 
-      for key, value in obj.items():
-        if isinstance(value, dict):
-          obj[key] = self._out(value)
+        for key, value in obj.items():
+          # print(key)
+          if isinstance(value, dict):
+            # print(value, key)
+            obj[key] = self._out(value)
+            # print(obj[key])
+            # print(obj)
 
-          return obj
+          elif key == '__list__':
+            obj[key] = self._out(obj[key])
 
-        elif key == '__list__':
-          obj[key] = self._out(obj[key])
-
-          return obj
+        return obj
 
     if isinstance(obj, list):
+      # print(obj, "1")
       for index in range(len(obj)):
         # print(obj[index])
         obj[index] = self._out(obj[index])
-        # print(obj)
+        # print(obj[index])
 
-      # return obj
+      return obj
     # print(obj)
     return obj
 

@@ -1,0 +1,120 @@
+# !bin/bash
+
+value=$(./simpleObjectTest/test1.py)
+echo "$value"
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./simpleObjectTest/test2.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./simpleObjectTest/test3.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./simpleObjectTest/test4.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./writeToFile/test1.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./writeToFile/test2.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./writeToFile/test3.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./writeToFile/test4.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./difficultObject/difficultTest1.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./difficultObject/difficultTest2.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./difficultObject/difficultTest3.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+value=$(./difficultObject/difficultTest4.py)
+echo "$value"
+
+if [[ "$value" == *"FAILED"* ]]
+  then
+    echo Failed
+    exit 113
+fi
+
+
+
+echo "
+  Test Complited"
+
+
+
+
+
+
+

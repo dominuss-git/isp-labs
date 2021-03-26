@@ -13,7 +13,7 @@ class Yaml:
     return yaml.dump(self._prepare(obj))
 
   def load(self, file_stream):
-    return yaml.load(file_stream)
+    return yaml.load(file_stream, Loader=yaml.FullLoader)
 
   def loads(self, string):
     return yaml.load(string, Loader=yaml.FullLoader)
@@ -85,5 +85,3 @@ class Yaml:
       except:
         logging.error(repr(obj) + ' is not yaml serializable')
         exit()
-
-      

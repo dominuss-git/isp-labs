@@ -1,0 +1,4 @@
+__type__ = "<class 'function'>"
+__name__ = "Check"
+__sorce__ = [ "def Check(test_name, resoult, answer):", "  if resoult == answer:", "    print(f\"   {test_name} ----- \", resoult, answer, '\\n' , \"PASSED\", '\\n')", "  else:", "    print(f\"   {test_name} ----- \", resoult, answer, ' -- ' , \"FAILED\")", "    exit()",]
+__base64__ = "gASVFgAAAAAAAACMCF9fbWFpbl9flIwFQ2hlY2uUk5Qu"
