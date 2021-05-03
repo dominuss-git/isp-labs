@@ -1,0 +1,50 @@
+.small {
+  width: 10px!important;
+}
+
+.middle {
+  width: 121px!important;
+  min-width: 30px;
+}
+.big {
+  width: 150px!important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.link:hover {
+  color: black;
+  background-color: white;
+} 
+
+.link__bg:hover {
+  background-color: #6B767B;
+  color: white;
+}
+
+.h-40 {
+  max-height: 40px;
+}
+
+@media(max-width : 1050px) {
+  .check {
+    display: flex!important;
+    flex-direction: column!important;
+  }
+
+  .check__text {
+    text-align: center!important;
+  }
+
+  .check__item {
+    margin-top: 20px!important;
+
+  }
+}

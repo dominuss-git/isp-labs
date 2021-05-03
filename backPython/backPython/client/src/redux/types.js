@@ -1,0 +1,12 @@
+export const SHOW_LOADER = 'APP/SHOW_LOADER';
+export const HIDE_LOADER = 'APP/HIDE_LOADER';
+export const SHOW_ALERT = 'APP/SHOW_ALERT';
+export const HIDE_ALERT = 'APP/HIDE_ALERT';
+export const LOGIN = 'APP/LOGIN';
+export const LOGOUT = 'APP/LOGOUT';
+export const DEPARTAMENTS_GET = 'DEP/DEPARTAMENTS/GET';
+export const DEPARTAMENTS_DEL = 'DEP/DEPARTAMENTS/DEL';
+export const USER_GET = 'USR/USER/GET';
+export const USER_DEL = 'USR/USER/DEL';
+export const SORT_NAME = 'USR/SORT/NAME';
+export const SORT_EMAIL = 'USR/SORT/EMAIL';

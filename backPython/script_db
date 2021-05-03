@@ -1,0 +1,5 @@
+# !bin/bash
+
+dropdb company_python
+createdb company_python
+psql -U dominuss -c "ALTER USER dominuss PASSWORD '123456'" company_python
