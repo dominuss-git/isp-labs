@@ -1,0 +1,36 @@
+{
+"name" : {
+  "type" : "class",
+  "name" : "my",
+  "val" : {
+  "arr" : [1,2,"3"],
+  "b" : false,
+  "d" : {
+    "a" : {
+      "c" : 1,
+      "d" : true,
+      },
+    "b" : 2,
+    },
+  "hi" : <bound method my.hi of <__main__.my object at 0x7f02080c34c0>>,
+  "s" : "hello",
+  "st" : {
+    "type" : "set",
+    "val" : [1,2,"kirill",4]
+    },
+  "t" : {
+    "type": "tuple",
+    "val" : [1,2,"hi",null,{
+      "type": "tuple",
+      "val" : ["hello","blyatt"]
+      },{
+      "type" : "set",
+      "val" : [1,2,3]
+      },[5,5,5,{
+        "a" : 1,
+        "b" : 2,
+        }]]
+    },
+  }
+},
+}

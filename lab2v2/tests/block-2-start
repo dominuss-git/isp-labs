@@ -1,7 +1,7 @@
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/json.json)"
 
-../converter/index.py -f ./convertetiontest/in/json.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.yaml
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconvconv.json
+../converter/index/index.py -f ./convertetiontest/in/json.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.yaml
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconvconv.json
 
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconvconv.json)"
@@ -16,8 +16,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/json.json)"
 
-../converter/index.py -f ./convertetiontest/in/json.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.toml
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconvconv.json
+../converter/index/index.py -f ./convertetiontest/in/json.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.toml
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconvconv.json
 
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconvconv.json)"
@@ -32,8 +32,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/json.json)"
 
-../converter/index.py -f ./convertetiontest/in/json.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.pickle
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.json
+../converter/index/index.py -f ./convertetiontest/in/json.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.pickle
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconv.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.json
 
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.json)"
@@ -48,8 +48,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/yaml.yaml)"
 
-../converter/index.py -f ./convertetiontest/in/yaml.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.json
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.yaml
+../converter/index/index.py -f ./convertetiontest/in/yaml.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.json
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.yaml
 
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.yaml)"
@@ -64,8 +64,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/yaml.yaml)"
 
-../converter/index.py -f ./convertetiontest/in/yaml.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.toml
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconvconv.yaml
+../converter/index/index.py -f ./convertetiontest/in/yaml.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.toml
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconvconv.yaml
 
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconvconv.yaml)"
@@ -80,8 +80,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/yaml.yaml)"
 
-../converter/index.py -f ./convertetiontest/in/yaml.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.pickle
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.yaml
+../converter/index/index.py -f ./convertetiontest/in/yaml.yaml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.pickle
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/yamlconv.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.yaml
 
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.yaml)"
@@ -96,8 +96,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/testpickle.pickle)"
 
-../converter/index.py -f ./convertetiontest/in/testpickle.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconv.json
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconv.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.pickle
+../converter/index/index.py -f ./convertetiontest/in/testpickle.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconv.json
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconv.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.pickle
 
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.pickle)"
@@ -112,8 +112,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/testtoml.toml)"
 
-../converter/index.py -f ./convertetiontest/in/testtoml.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.json
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.toml
+../converter/index/index.py -f ./convertetiontest/in/testtoml.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.json
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.json /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.toml
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/jsonconvconv.toml)"
 
@@ -127,8 +127,8 @@ fi
 
 value1="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/in/testtoml.toml)"
 
-../converter/index.py -f ./convertetiontest/in/testtoml.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.pickle
-../converter/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.toml
+../converter/index/index.py -f ./convertetiontest/in/testtoml.toml /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.pickle
+../converter/index/index.py -f /home/dominuss/labs/lab2v2/tests/convertetiontest/out/tomlconv.pickle /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.toml
 
 value2="$(cat /home/dominuss/labs/lab2v2/tests/convertetiontest/out/pickleconvconv.toml)"
 

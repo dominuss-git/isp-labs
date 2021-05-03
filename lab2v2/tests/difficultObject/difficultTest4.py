@@ -11,6 +11,10 @@ def CheckFields(test_name, resoult, answer):
   else:
     print(f"  {test_name} -  __init__ ----- ", resoult.__init__, answer.__init__, ' -- ' , "FAILED")
     exit()
+
+  if isinstance(resoult, type):
+    resoult = resoult(1, 2)
+    answer = answer(1, 2)
   
   if resoult.Hello() == answer.Hello():
     print(f"  {test_name} -  Hello ----- ", resoult.Hello(), answer.Hello(), '\n' , "PASSED", '\n')
@@ -45,28 +49,31 @@ serializer = CreateSerializator()
 deserializer = CreateDeserializator()
 
 print("PICKLE difficult test")
+try:
+  test = {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True} }
+  a = serializer.serialize(test, format="PICKLE")
+  d = deserializer.deserialize(a, format="PICKLE", normalize=True)
 
-test = {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True} }
-a = serializer.serialize(test, format="PICKLE")
-d = deserializer.deserialize(a, format="PICKLE", normalize=True)
+  Check("test1", {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True}}, d)
 
-Check("test1", {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True}}, d)
+  test = {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }
+  a = serializer.serialize(test, format="PICKLE")
+  d = deserializer.deserialize(a, format="PICKLE", normalize=True)   
 
-test = {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }
-a = serializer.serialize(test, format="PICKLE")
-d = deserializer.deserialize(a, format="PICKLE", normalize=True)   
+  Check("test2", {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }, d)
 
-Check("test2", {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }, d)
+  test = [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]]
+  a = serializer.serialize(test, format="PICKLE")
+  d = deserializer.deserialize(a, format="PICKLE", normalize=True)     
+  Check("test3", [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]], d)
 
-test = [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]]
-a = serializer.serialize(test, format="PICKLE")
-d = deserializer.deserialize(a, format="PICKLE", normalize=True)     
-Check("test3", [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]], d)
-
-test = Test(1, 2)
-a = serializer.serialize(test, format="PICKLE")
-d = deserializer.deserialize(a, format="PICKLE", normalize=True)     
-# Check("test4", test, d)
-CheckFields("test4-class-fields-test", test, d)
+  test = Test
+  a = serializer.serialize(test, format="PICKLE")
+  d = deserializer.deserialize(a, format="PICKLE", normalize=True)     
+  # Check("test4", test, d)
+  CheckFields("test4-class-fields-test", Test, d)
+except:
+  print("FAILED")
+  exit()
 
 print('PASSED \n')

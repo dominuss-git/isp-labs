@@ -47,25 +47,29 @@ deserializer = CreateDeserializator()
 
 print("TOML difficult test")                          
 
-test = {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True} }
-a = serializer.serialize(test, format="TOML")
-d = deserializer.deserialize(a, format="TOML", normalize=True)     
-Check("tese1", {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True}}, d)
+try:
+  test = {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True} }
+  a = serializer.serialize(test, format="TOML")
+  d = deserializer.deserialize(a, format="TOML", normalize=True)     
+  Check("tese1", {"a" : [1, 3,5,3223, "None"], "b" : {1, 2, 3}, "c" : {"q" : [1, 2, 3], "a": True}}, d)
 
-test = {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }
-a = serializer.serialize(test, format="TOML")
-d = deserializer.deserialize(a, format="TOML", normalize=True)     
-Check("test2", {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }, d)
+  test = {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }
+  a = serializer.serialize(test, format="TOML")
+  d = deserializer.deserialize(a, format="TOML", normalize=True)     
+  Check("test2", {"a" : [1, None, [1, 2, 3, 4]], "c" : [1, 2, 3, (1, 2, 3, 4)] }, d)
 
-test = [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]]
-a = serializer.serialize(test, format="TOML")
-d = deserializer.deserialize(a, format="TOML", normalize=True)     
-Check("test3", [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]], d)
+  test = [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]]
+  a = serializer.serialize(test, format="TOML")
+  d = deserializer.deserialize(a, format="TOML", normalize=True)     
+  Check("test3", [1, 2, 3, 4, [1, 6, True, None, {1, 2, 3, 3}, [1, 2, "hello", (1, 2, 3, 4)]]], d)
 
-test = Test(1, 2)
-a = serializer.serialize(test, format="TOML")
-d = deserializer.deserialize(a, format="TOML", normalize=True)     
-# Check("test4", test, d)
-CheckFields("test4-class-fields-test", test, d)
+  test = Test(1, 2)
+  a = serializer.serialize(test, format="TOML")
+  d = deserializer.deserialize(a, format="TOML", normalize=True)     
+  # Check("test4", test, d)
+  CheckFields("test4-class-fields-test", test, d)
+except:
+  print("FAILED")
+  exit()
 
 print('PASSED \n')

@@ -17,68 +17,71 @@ serializer = CreateSerializator()
 deserializer = CreateDeserializator()
 
 print("JSON write test")
+try:
+  test = None
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-test = None
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("NoneType", test, d)
 
-Check("NoneType", test, d)
+  test = False
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-test = False
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("bool", test, d)
 
-Check("bool", test, d)
+  test = .23423
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-test = .23423
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("float", test, d)
 
-Check("float", test, d)
+  test = 12
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-test = 12
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("int", test, d)
 
-Check("int", test, d)
+  test = "hello"
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-test = "hello"
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("str", test, d)
 
-Check("str", test, d)
+  test = [1, "hello", True, None, 1.24, .23423]
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-test = [1, "hello", True, None, 1.24, .23423]
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("list", test, d)
 
-Check("list", test, d)
+  test = {1, "hello", True, None, 1.24, .23423}
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-test = {1, "hello", True, None, 1.24, .23423}
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("set", test, d)
 
-Check("set", test, d)
+  test = (1, "hello", True, None, 1.24, .23423)
 
-test = (1, "hello", True, None, 1.24, .23423)
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("tuple", test, d)
 
-Check("tuple", test, d)
+  test = {"a" : 1, "b": "hello", "1" : True, "c": None,"f": 1.24,"f2": .23423}
 
-test = {"a" : 1, "b": "hello", "1" : True, "c": None,"f": 1.24,"f2": .23423}
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
+  Check("dict", test, d)
 
-Check("dict", test, d)
+  test = Check
 
-test = Check
+  serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
+  d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
 
-serializer.serialize(test, format="JSON", file_path='/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json')
-d = deserializer.deserialize('/home/dominuss/labs/lab2v2/tests/writeToFile/out/testjson.json', format="JSON", normalize=True, file_mode=True)
-
-Check("function", Check, d)
+  Check("function", Check, d)
+except:
+  print("FAILED")
+  exit()
 
 print('PASSED \n')
