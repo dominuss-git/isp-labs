@@ -1,26 +1,31 @@
 from rest_framework import serializers
-from ..models import User
+from ..models import User, Profile
 from django.contrib.auth import authenticate
 
 class RegistrationSerializer(serializers.ModelSerializer):
-  password = serializers.CharField(
-    max_length=128,
-    min_length=8,
-    write_only=True
-  )
-
   token = serializers.CharField(max_length=255, read_only=True)
 
   class Meta:
     model = User
-    fields = ['email', 'username', 'password', 'token']
+    fields = [
+      'userId',
+      'email', 
+      'password',
+      'confirmPassword', 
+      'token', 
+      'name', 
+      'surname',
+      'skils',
+      'street',
+      'home',
+      'flat'
+    ]
 
-  def create(self, validated_data):
-    return User.objects.create_user(**validated_data)
+  # def create(self, validated_data):
+  #   return User.objects.create_user(**validated_data)
 
 class LoginSerializer(serializers.Serializer):
   email = serializers.CharField(max_length=255)
-  username = serializers.CharField(max_length=255, read_only=True)
   password = serializers.CharField(max_length=128, write_only=True)
   token = serializers.CharField(max_length=255, read_only=True)
 
@@ -45,43 +50,46 @@ class LoginSerializer(serializers.Serializer):
         'User not found'
       )
 
-    return {
-      "email" : user.email,
-      "username" : user.username,
-      "token" : user.token
-    }
+    return user
+    # user = User.objects.all()#find_by_email(user.email)
+    # print(user.first())
+    # return {
+    #   "id" : user.id,
+    #   # "username" : user.username,
+    #   "token" : user.token
+    # }
+
+class ProfileSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+      model = Profile
+      fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
-  password = serializers.CharField(
-    max_length=128,
-    min_length=8,
-    write_only=True
-  )
+  addresId = ProfileSerializer()
 
   class Meta:
     model = User
-    fields = ('email', 'username', 'password', 'token')
+    fields = ('email', 'name', 'surname', 'addresId')
     read_only_fields = ('token',)
 
 
-  def update(self, instance, validated_data):
-    password = validated_data.pop('password', None)
+#   def update(self, instance, validated_data):
+#     password = validated_data.pop('password', None)
 
-    for key, value in validated_data.items():
-      setattr(instance, key, value)
+#     for key, value in validated_data.items():
+#       setattr(instance, key, value)
 
-    if password is not None:
-      instance.set_password(password)
+#     if password is not None:
+#       instance.set_password(password)
 
-    instance.save()
+#     instance.save()
 
-    return instance
+#     return instance
 
 
 
-#   class Meta:
-#     model = Address
-#     fields = '__all__'
+
 
 # class UserSerializer(serializers.ModelSerializer):
 

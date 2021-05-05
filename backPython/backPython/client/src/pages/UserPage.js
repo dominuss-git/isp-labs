@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Loader } from '../components/Loader';
 import { useHttp } from '../hooks/http.hook';
@@ -10,22 +10,24 @@ export const UserPage = () => {
   const [user, setUser] = useState(undefined);
   const [date, setDate] = useState()
   console.log(history.location.pathname.split('/')[2])
+
   const getUser = async () => {
-    console.log(id)
+    console.log("hi")
     const data = await request(`/user/${id}/data`, 'GET');
+    console.log(data)
     if (data.status === 200) {
       setUser(data.body);
       const date_f = new Date(data.body.date);
-      console.log(data.body)
       setDate(`${date_f.getDate()}.${date_f.getMonth() + 1}.${date_f.getFullYear()}`);
     }
   };
 
   useEffect(() => {
+    console.log("hi")
     if (!user && !loading) {
       getUser();
     }
-  }, [user, getUser, setUser]);
+  }, [user, getUser, setUser, loading]);
 
   if (!user || loading) {
     return <Loader />;

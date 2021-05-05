@@ -27,17 +27,17 @@ export const DashboardPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!deps && !loading) {
-      getDeps();
-    }
-  }, [deps, getDeps]);
+  // useEffect(() => {
+  //   if (!deps && !loading) {
+  //     getDeps();
+  //   }
+  // }, [deps, getDeps]);
 
-  useEffect(() => {
-    if (!users && !loading) {
-      getUser();
-    }
-  }, [users, getUser]);
+  // useEffect(() => {
+  //   if (!users && !loading) {
+  //     getUser();
+  //   }
+  // }, [users, getUser]);
 
   if (!users || !deps) {
     return <Loader />;

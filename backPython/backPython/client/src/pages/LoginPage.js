@@ -29,11 +29,11 @@ export const LoginPage = () => {
 
   const onLogin = async () => {
     dispatch(showLoader());
-    const data = await request('/login', 'POST', { ...form });
+    const data = await request('/login', 'POST', {"user": { ...form }});
+
     if (data.status === 400) {
-      message(data.body.message);
+      message('Invalid password or email');
     } else if (data.status === 200) {
-      console.log(data.body)
       login(data.body.token, data.body.userId);
     }
     dispatch(hideLoader());

@@ -5,58 +5,105 @@ from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView
 
 from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
-from .render import UserJSONRenderer
+from ..models import User
+# from .render import UserJSONRenderer
 
 class RegistrationAPIView(APIView):
   permission_classes = (AllowAny,)
   serializer_class = RegistrationSerializer
-  renderer_classes = (UserJSONRenderer,)
+  # renderer_classes = (UserJSONRenderer,)
 
   def post(self, request):
-    user = request.data.get('user', {})
+    try:
+      user = request.data
 
-    serializer = self.serializer_class(data=user)
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
+      if User.objects.find_by_email(user.get('email')):
+        return Response({"message" :'User with same email is exist'}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+      if len(user.get('password')) < 8:
+        return Response({"message" : "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
+
+      if user.get('password') != user.get('confirnPassword'):
+        return Response({"message" : "Passwords mismatch"}, status=status.HTTP_400_BAD_REQUEST)
+      
+      if not (user.get('name') and \
+            user.get('surname') and \
+            user.get('home') and \
+            user.get('flat') and \
+            user.get("street")):
+        return Response({"message" : "Invalid User information"}, status=status.HTTP_400_BAD_REQUEST)
+
+      user = User.objects.create_user(
+        email=user.get('email'),
+        name=user.get('name'),
+        skils=user.get('skils'),
+        surname=user.get('surname'),
+        street=user.get('street'),
+        flat=user.get('flat'),
+        home=user.get('home'),
+        password=user.get('password'),
+      )
+
+      return Response({"userId": user.get('id'), "token" : user.get('token')}, status=status.HTTP_201_CREATED)
+    except:
+      return Response('Internal server error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class LoginAPIView(APIView):
   permission_classes = (AllowAny, )
-  renderer_classes = (UserJSONRenderer, )
   serializer_class = LoginSerializer
 
   def post(self, request):
-    user = request.data.get('user', {})
+    # try:
+      user = request.data.get('user', {})
 
-    serializer = self.serializer_class(data=user)
-    serializer.is_valid(raise_exception=True)
+      serializer = self.serializer_class(data=user)
+      serializer.is_valid(raise_exception=True)
 
-    return Response(serializer.data, status=status.HTTP_200_OK)
+      print(serializer)
 
-class UserRetrieveUpdateAPIView(RetrieveAPIView):
+      user = User.objects.filter(email=serializer.data.get('email')).values_list()
+
+      return Response({"userId" : user[0][0], "token" : serializer.data.get('token')}, status=status.HTTP_200_OK)
+    # except:
+      # return Response('Internal server error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class UserAPIView(APIView):
   permission_classes = (IsAuthenticated, )
-  renderer_classes = (UserJSONRenderer, )
-  serializer_class = UserSerializer
+  # serializer_class = UserSerializer
 
-  def retrieve(self, request, *args, **kwargs):
-    serializer = self.serializer_class(request.user)
+  def get(self, request, id=1):
 
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+      queryset = User.objects.find_by_id(id)
+      serializer_class = UserSerializer(queryset, many=True)
 
-  def put(self, request, *args, **kwargs):
-    serializer_data = request.data.get('user', {})
+      return Response(serializer_class.data, status=status.HTTP_200_OK)
+    except:
+      return Response({"message": "Internal Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    serializer = self.serializer_class(
-      request.user, 
-      data=serializer_data, 
-      partial=True
-    )
+# class UserRetrieveUpdateAPIView(RetrieveAPIView):
+#   permission_classes = (IsAuthenticated, )
+#   renderer_classes = (UserJSONRenderer, )
+#   serializer_class = UserSerializer
 
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
+#   def retrieve(self, request, *args, **kwargs):
+#     serializer = self.serializer_class(request.user)
 
-    return Response(serializer.data, status=status.HTTP_200_OK)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+
+#   def put(self, request, *args, **kwargs):
+#     serializer_data = request.data.get('user', {})
+
+#     serializer = self.serializer_class(
+#       request.user, 
+#       data=serializer_data, 
+#       partial=True
+#     )
+
+#     serializer.is_valid(raise_exception=True)
+#     serializer.save()
+
+#     return Response(serializer.data, status=status.HTTP_200_OK)
 
 # from rest_framework import viewsets
 # from django.views.decorators.http import require_http_methods

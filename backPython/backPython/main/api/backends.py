@@ -4,7 +4,7 @@ from rest_framework import authentication, exceptions
 from ..models import User 
 
 class JWTAuthentication(authentication.BaseAuthentication):
-  authentication_header_prefix = 'Token'
+  authentication_header_prefix = 'Bearer'
 
   def authenticate(self, request):
     request.user = None
@@ -20,8 +20,8 @@ class JWTAuthentication(authentication.BaseAuthentication):
     prefix = auth_header[0].decode('utf-8')
     token = auth_header[1].decode('utf-8')
 
-    if prefix == 'Bearer':
-      prefix = 'Token'
+    # if prefix == 'Bearer':
+      # prefix = 'Token'
 
     if prefix.lower() != auth_header_prefix:
       return None

@@ -9,6 +9,7 @@ import { UserPage } from './pages/UserPage';
 import { WorkersPage } from './pages/WorkersPage';
 
 export const useRoutes = (isAuthentification) => {
+  console.log(isAuthentification)
   if (isAuthentification) {
     return (
       <Switch>

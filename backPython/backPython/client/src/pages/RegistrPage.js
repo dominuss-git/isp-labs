@@ -27,9 +27,14 @@ export const RegistrPage = () => {
 
   const onRegistr = async () => {
     const data = await request('/registr', 'POST', { ...form });
+    console.log(data)
+    console.log(data)
     if (data.status === 400) {
-      message(data.body.message);
-    } else if (data.status === 200) {
+      message(data.body.message)
+    } 
+    
+    if (data.status === 201) {
+      console.log(data.body.user)
       login(data.body.token, data.body.userId);
     }
   };
