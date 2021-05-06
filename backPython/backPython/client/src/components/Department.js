@@ -9,16 +9,14 @@ export const Department = ({ data }) => {
   const message = useMessage();
   const history = useHistory();
 
-  let date = new Date(data.date);
+  // let date = new Date(data.date);
   // console.log(data)
-  date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-
+  // date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
   let boss = null;
   const dispatch = useDispatch();
   const id = useSelector((state) => state.login.id);
   const dep = `/departments/${data.id}`;
   const { request } = useHttp();
-
   data.users.map((val, i) => {
     if (val.id === Number(data.bossId)) {
       boss = val;
@@ -59,7 +57,7 @@ export const Department = ({ data }) => {
           </div>
         </div>
         <div className="fw-bold d-flex flex-column">
-          {date}
+          {data.date}
 &#8195;
           <div className="col-auto d-flex justify-content-end">
             <button

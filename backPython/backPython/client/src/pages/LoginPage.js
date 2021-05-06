@@ -28,15 +28,15 @@ export const LoginPage = () => {
   };
 
   const onLogin = async () => {
-    dispatch(showLoader());
-    const data = await request('/login', 'POST', {"user": { ...form }});
+    // dispatch(showLoader());
+    const data = await request('/login', 'POST', {"user" : { ...form }});
 
     if (data.status === 400) {
       message('Invalid password or email');
     } else if (data.status === 200) {
       login(data.body.token, data.body.userId);
     }
-    dispatch(hideLoader());
+    // dispatch(hideLoader());
   };
 
   return (

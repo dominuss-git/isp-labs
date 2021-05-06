@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import {useSelector} from 'react-redux';
 
 export const useHttp = () => {
   const [loading, setLoading] = useState(false);
@@ -8,7 +9,6 @@ export const useHttp = () => {
     setLoading(true);
 
     url = `http://192.168.31.5:8000/api${url}/`;
-
     try {
       if (body) {
         body = JSON.stringify(body);

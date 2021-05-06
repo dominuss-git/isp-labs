@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useHttp } from '../hooks/http.hook';
 import { useMessage } from '../hooks/message.hook';
@@ -13,11 +13,12 @@ export const Worker = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const message = useMessage();
+  const token = useSelector((state) => state.login.token)
 
   const dismissHandler = async () => {
     if (user.id === Number(bossId)) {
       if (length === 1) {
-        const data = await request(`/department/${id}`, 'DELETE', { userId: bossId });
+        const data = await request(`/department/${id}`, 'DELETE', { userId: bossId }, { Authorization : 'Bearer ' + token });
 
         if (data.status === 200) {
           message(data.body.message);
@@ -47,7 +48,7 @@ export const Worker = ({
       <th scope="row">{numbering + 1}</th>
       <td>{user.name}</td>
       <td>{user.email}</td>
-      <td>{bossId === String(user.id) ? 'boss' : 'clerk'}</td>
+      <td>{bossId === Number(user.id) ? 'boss' : 'clerk'}</td>
       <td>{name}</td>
       <td>
         <button

@@ -5,7 +5,8 @@ export const DepartmentInfo = ({ data }) => {
   let bossEmail = '';
 
   for (const user of data.users) {
-    if (data.bossId === String(user.id)) {
+    console.log(user.id, data.bossId)
+    if (data.bossId === Number(user.id)) {
       bossEmail = user.email;
       break;
     }

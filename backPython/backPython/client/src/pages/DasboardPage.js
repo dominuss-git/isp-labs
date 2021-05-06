@@ -10,34 +10,35 @@ import { getUsers } from '../redux/actions/user.actions';
 export const DashboardPage = () => {
   const { request, loading } = useHttp();
   const users = useSelector((state) => state.usr.users);
+  const token = useSelector((state) => state.login.token)
   const deps = useSelector((state) => state.dep.deps);
   const dispatch = useDispatch();
 
   const getUser = async () => {
-    const data = await request('/user/', 'GET');
+    const data = await request('/user', 'GET', null, { Authorization : 'Bearer ' + token });
     if (data.status === 200) {
       dispatch(getUsers(data.body));
     }
   };
 
   const getDeps = async () => {
-    const data = await request('/department', 'GET');
+    const data = await request('/department', 'GET', null, { Authorization : 'Bearer ' + token });
     if (data.status === 200) {
       dispatch(getDepsAction(data.body));
     }
   };
 
-  // useEffect(() => {
-  //   if (!deps && !loading) {
-  //     getDeps();
-  //   }
-  // }, [deps, getDeps]);
+  useEffect(() => {
+    if (!deps && !loading) {
+      getDeps();
+    }
+  }, [deps, getDeps]);
 
-  // useEffect(() => {
-  //   if (!users && !loading) {
-  //     getUser();
-  //   }
-  // }, [users, getUser]);
+  useEffect(() => {
+    if (!users && !loading) {
+      getUser();
+    }
+  }, [users, getUser]);
 
   if (!users || !deps) {
     return <Loader />;

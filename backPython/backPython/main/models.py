@@ -75,11 +75,75 @@ class UserManager(BaseUserManager):
   def get_queryset(self):
     return UserQuerySet(self.model, using=self._db)
 
+  def find(self, id):
+    return self.get_queryset().filter(id=id)
+
   def all(self):
-    return self.get_queryset()
+    out = []
+    for val in self.filter():
+      addr = Profile.objects.filter(id=val.id).values()
+
+      if not addr:
+        out.append({
+          'id' : val.id,
+          'name' : val.name,
+          'email': val.email,
+          'surname' : val.surname,
+          'date' : val.created_at,
+          'update' : val.updated_at,
+          'skils' : 'admin',
+          'addressId': None
+        })
+        continue
+      
+      addr = addr[0]
+      out.append({
+        'id' : val.id,
+        'name' : val.name,
+        'email': val.email,
+        'surname' : val.surname,
+        'date' : val.created_at,
+        'update' : val.updated_at,
+        'skils' : addr.get('skils'),
+        'addressId': {
+          'street' : addr.get('street'),
+          'home' : addr.get('home'),
+          'flat' : addr.get('flat')
+        }
+      })
+
+    return out
 
   def find_by_id(self, id):
-    return self.get_queryset().filter(id=id)
+    val = self.filter(id=id).values()[0]
+    addr = Profile.objects.filter(id=val.get('id')).values()
+    if not addr:
+      return ({
+        'id' : val.get('id'),
+        'name' : val.get('name'),
+        'email': val.get('email'),
+        'surname' : val.get('surname'),
+        'skils' : 'admin',
+        'date' : val.get('created_at'),
+        'update' : val.get('updated_at'),
+        'addressId': None
+      })
+    
+    addr = addr[0]
+    return ({
+      'id' : val.get('id'),
+      'name' : val.get('name'),
+      'email': val.get('email'),
+      'surname' : val.get('surname'),
+      'skils' : addr.get('skils'),
+      'date' : val.get('created_at'),
+      'update' : val.get('updated_at'),
+      # 'addressId': {
+      'street' : addr.get('street'),
+      'home' : addr.get('home'),
+      'flat' : addr.get('flat')
+      # }
+    })
 
 
   def find_by_email(self, email):
@@ -146,7 +210,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 #   def _generate_jwt_token(self):
 #     dt = datetime.now() + datetime.timedelta(hours=1)
-#     print("ok")
 #     token = jwt.encode({
 #       'id': self.pk,
 #       'password': self.password

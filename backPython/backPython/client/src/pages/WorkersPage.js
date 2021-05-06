@@ -7,20 +7,21 @@ import { getDepsAction } from '../redux/actions/dep.actions';
 import { getUsers, sortByEmail, sortByName } from '../redux/actions/user.actions';
 
 export const WorkersPage = () => {
+  const token = useSelector((state) => state.login.token)
   const { request, loading } = useHttp();
   const users = useSelector((state) => state.usr.users);
   const deps = useSelector((state) => state.dep.deps);
   const dispatch = useDispatch();
 
   const getUser = async () => {
-    const data = await request('/user', 'GET');
+    const data = await request('/user', 'GET', null, { Authorization : 'Bearer ' + token });
     if (data.status === 200) {
       dispatch(getUsers(data.body));
     }
   };
 
   const getDeps = async () => {
-    const data = await request('/department', 'GET');
+    const data = await request('/department', 'GET', null, { Authorization : 'Bearer ' + token });
     if (data.status === 200) {
       dispatch(getDepsAction(data.body));
     }

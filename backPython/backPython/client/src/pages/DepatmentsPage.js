@@ -9,12 +9,13 @@ import { getDepsAction } from '../redux/actions/dep.actions';
 export const DepartmentsPage = () => {
   const dispatch = useDispatch();
   const deps = useSelector((state) => state.dep.deps);
+  const token = useSelector((state) => state.login.token)
   const message = useMessage();
   const { request, loading } = useHttp();
   const [form, setForm] = useState();
 
   const getDeps = async () => {
-    const data = await request('/department', 'GET');
+    const data = await request('/department', 'GET', null, { Authorization : 'Bearer ' + token });
     if (data.status === 200) {
       dispatch(getDepsAction(data.body));
     }
@@ -25,7 +26,7 @@ export const DepartmentsPage = () => {
   };
 
   const createHandler = async () => {
-    const data = await request('/department/create', 'POST', { ...form });
+    const data = await request('/department/create', 'POST', { ...form }, { Authorization : 'Bearer ' + token });
     if (data.status === 400) {
       let mes = '';
       for (const mem of data.body.message) {

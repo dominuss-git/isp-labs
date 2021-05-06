@@ -51,13 +51,6 @@ class LoginSerializer(serializers.Serializer):
       )
 
     return user
-    # user = User.objects.all()#find_by_email(user.email)
-    # print(user.first())
-    # return {
-    #   "id" : user.id,
-    #   # "username" : user.username,
-    #   "token" : user.token
-    # }
 
 class ProfileSerializer(serializers.ModelSerializer):
     

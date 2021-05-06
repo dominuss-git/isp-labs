@@ -13,6 +13,7 @@ export const DepartmentPage = () => {
   const message = useMessage();
   const { request, loading } = useHttp();
   const deps = useSelector((state) => state.dep.deps);
+  const token = useSelector((state) => state.login.token)
   const dispatch = useDispatch();
   const [form, setForm] = useState();
 
@@ -21,7 +22,7 @@ export const DepartmentPage = () => {
   };
 
   const getDeps = async () => {
-    const data = await request('/department', 'GET');
+    const data = await request('/department', 'GET', null, { Authorization : 'Bearer ' + token });
     if (data.status === 200) {
       dispatch(getDepsAction(data.body));
     }
@@ -38,7 +39,7 @@ export const DepartmentPage = () => {
   }
 
   const addHandler = async () => {
-    const data = await request(`/department/${id}`, 'PUT', { ...form });
+    const data = await request(`/department/${id}`, 'PUT', { ...form }, { Authorization : 'Bearer ' + token });
     if (
       data.status === 404
       || data.status === 400) {
@@ -53,7 +54,7 @@ export const DepartmentPage = () => {
   };
 
   const changeBossHandler = async () => {
-    const data = await request(`/department/${id}/change`, 'PUT', { ...form });
+    const data = await request(`/department/${id}/change`, 'PUT', { ...form }, { Authorization : 'Bearer ' + token });
 
     if (data.status === 404) {
       message(data.body.message);
@@ -70,7 +71,7 @@ export const DepartmentPage = () => {
       {!!deps && deps.map((val, i) => {
         if (val.id === Number(id)) {
           return (
-            <DepartmentInfo data={val} key={1} />
+            <DepartmentInfo data={val} key={i} />
           );
         }
       })}

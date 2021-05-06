@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router';
 import { Loader } from '../components/Loader';
 import { useHttp } from '../hooks/http.hook';
 
 export const UserPage = () => {
+  const token = useSelector((state) => state.login.token);
   const history = useHistory();
   const id = (history.location.pathname.split('/'))[2];
   const { request, loading } = useHttp();
   const [user, setUser] = useState(undefined);
   const [date, setDate] = useState()
-  console.log(history.location.pathname.split('/')[2])
 
   const getUser = async () => {
     console.log("hi")
-    const data = await request(`/user/${id}/data`, 'GET');
+    const data = await request(`/user/${id}/data`, 'GET',null, { Authorization : 'Bearer ' + token });
     console.log(data)
     if (data.status === 200) {
       setUser(data.body);
@@ -22,12 +23,11 @@ export const UserPage = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("hi")
+  useEffect(useCallback(() => {
     if (!user && !loading) {
       getUser();
     }
-  }, [user, getUser, setUser, loading]);
+  }), [user, getUser, setUser, loading]);
 
   if (!user || loading) {
     return <Loader />;
