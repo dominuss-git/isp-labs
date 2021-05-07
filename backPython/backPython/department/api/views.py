@@ -35,25 +35,38 @@ class DepartmentAPIView(APIView):
   permission_classes = (IsAuthenticated, )
   serializer_class = DepartmentSerializer
 
-  # def put(self, request, id=1):
-  #   try:
-  #     email = request.data.get('email')
+  def put(self, request, id=1):
+    try:
+      usr = User.objects.filter(email=request.data.get('email')).values()
 
-  #     user = User.objects.find_by_email(email).values()
+      if not usr:
+        return Response({'message' : 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-  #     if not user:
-  #       return Response({'message' : "Boss didn't find"}, status=status.HTTP_400_BAD_REQUEST)
+      employee = Employee.objects.filter(departmentId=id, userId=usr[0].get('id')).values()
 
-  #     employee = Employee.objects.find(user[0].get('id'), id)
-  #     if employee.get('message'):
-  #       return Response({'message' : "User didn't work on this department"}, status=status.HTTP_400_BAD_REQUEST)
+      if employee:
+        return Response({'message' : 'User work on this department yet'})
 
-  #     is_change = Department.objects.change_boss(id, user[0].get('id'))
+      Department.objects.last_update(id)
+      empl = Employee.objects.create_c(usr[0].get('id'), id)
 
-  #     return Response(is_change, status=status.HTTP_200_OK)
+      return Response({'userId' : empl.userId.id, 'departmentId' : id}, status=status.HTTP_200_OK)
 
-  #   except:
-  #     return Response({"message": "Internal Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except:
+      return Response('Internal Server Error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+  def delete(self, request, id=1):
+    try:
+      department =Department.objects.filter(id=id)
+      if department.values()[0].get('bossId_id') != request.user.id:
+        return Response('You must be boss of this department', status=status.HTTP_400_BAD_REQUEST)
+
+      Employee.objects.remove_all(department.values()[0].get('id'))
+
+      return Response(Department.objects.remove(department.values()[0].get('id')), status=status.HTTP_200_OK)
+      
+    except:
+      return Response({"message": "Internal Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
   def get(self, request, id=1):
     try:
@@ -63,23 +76,9 @@ class DepartmentAPIView(APIView):
       department_data = []
 
       for val in employee:
-        user = User.objects.find(val.get('userId')).values()
-        address = Profile.objects.filter(id=user[0].get('addresId_id')).values()
-        department_data.append({
-          'id' : user[0].get('id'),
-          'name' : user[0].get('name'),
-          'surname' : user[0].get('surname'),
-          'email' : user[0].get('email'),
-          'skils' : address[0].get('skils'),
-          'date' : user[0].get('crated_at'),
-          'update' : user[0].get('updated_at'),
-          'addressId' : {
-            'street': address[0].get('street'),
-            'home' : address[0].get('home'),
-            'flat' : address[0].get('flat')
-          }
-
-        })
+        user = User.objects.find_by_id(val.get('userId'))
+        # address = Profile.objects.filter(id=user[0].get('addresId_id')).values()
+        department_data.append(user)
 
       return Response({
         "id" : dep.get('id'),
@@ -90,6 +89,18 @@ class DepartmentAPIView(APIView):
         'update' : dep.get('update'),
         "users" : department_data
       }, status=status.HTTP_200_OK)
+    except:
+      return Response({"message": "Internal Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class RemoveEmployeeAPIView(APIView):
+  permission_classes = (IsAuthenticated, )
+  serializer_class = DepartmentSerializer
+
+  def delete(self, request, dep=1, id=1):
+    try:
+      Department.objects.last_update(dep)
+
+      return Response(Employee.objects.remove(id, dep), status=status.HTTP_200_OK)
     except:
       return Response({"message": "Internal Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -109,22 +120,37 @@ class DepartmentReviewAPIView(APIView):
         department_data = []
 
         for val in employee:
-          user = User.objects.find(val.get('userId')).values()
-          address = Profile.objects.filter(id=user[0].get('addresId_id')).values()
-          department_data.append({
-            'id' : user[0].get('id'),
-            'name' : user[0].get('name'),
-            'surname' : user[0].get('surname'),
-            'email' : user[0].get('email'),
-            'skils' : address[0].get('skils'),
-            'date' : user[0].get('crated_at'),
-            'update' : user[0].get('updated_at'),
-            'addressId' : {
-              'street': address[0].get('street'),
-              'home' : address[0].get('home'),
-              'flat' : address[0].get('flat')
-            }
-          })
+          user = User.objects.find_by_id(val.get('userId'))
+          # address = Profile.objects.filter(id=user[0].get('addresId_id')).values()
+          # if not address:
+          department_data.append( user
+            # 'id' : user[0].get('id'),
+            # 'name' : user[0].get('name'),
+            # 'surname' : user[0].get('surname'),
+            # 'email' : user[0].get('email'),
+            # 'skils' : add,
+            # 'date' : user[0].get('crated_at'),
+            # 'update' : user[0].get('updated_at'),
+            # 'addressId' : {
+              # 'street': None,
+              # 'home' : None,
+              # 'flat' : None
+            # }
+          )
+          # department_data.append({
+            # 'id' : user[0].get('id'),
+            # 'name' : user[0].get('name'),
+            # 'surname' : user[0].get('surname'),
+            # 'email' : user[0].get('email'),
+            # 'skils' : address[0].get('skils'),
+            # 'date' : user[0].get('crated_at'),
+            # 'update' : user[0].get('updated_at'),
+            # 'addressId' : {
+              # 'street': address[0].get('street'),
+              # 'home' : address[0].get('home'),
+              # 'flat' : address[0].get('flat')
+            # }
+          # })
         deps_list.append({
           "id" : dep.get('id'),
           "name" : dep.get('name'),
@@ -141,9 +167,12 @@ class DepartmentReviewAPIView(APIView):
 
 
 class DepartmentCreateAPIView(APIView):
+  permission_classes = (IsAuthenticated, )
+  serializer_class = DepartmentSerializer
+  
   def post(self, request):
     try:
-      usr = User.objects.find_by_email(request.data.get('bossEmail'))
+      usr = User.objects.filter(email=request.data.get('bossEmail'))
       if not usr:
         return Response('User not found', status=status.HTTP_400_BAD_REQUEST)
 

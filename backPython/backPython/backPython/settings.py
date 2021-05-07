@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from settings_json import get_setting
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,15 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_-y74g!hltq+)8k+!cy55=qhnk#2by$$1z08vrnhjw2166%w(s'
+SECRET_KEY = get_setting('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-CORS_ALLOW_ALL_ORIGINS=True
-ALLOWED_HOSTS = [
-    '*',
-    'https://192.168.31.5'
-]
+DEBUG = get_setting('debug')  #True
+CORS_ALLOW_ALL_ORIGINS=get_setting('CORS_ALLOW_ALL_ORIGINS')
+ALLOWED_HOSTS = get_setting('hosts')
 
 
 # Application definition
@@ -59,6 +56,27 @@ PASSWORD_HASHED = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
 ]
 
+LOGGING = {
+    'version' : 1,
+    'disable_existing_loggers' : False,
+    'handlers' : {
+        'file' : {
+            'class' : 'logging.FileHandler',
+            'level' : 'DEBUG',
+            'filename' : 'debug.log',
+        },
+    },
+    'loggers': {
+        'django' : {
+            'handlers' : ['file'],
+            'level' : 'INFO',
+            'propagate' : True
+        }
+        
+    }
+} 
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES' : [
         'main.api.backends.JWTAuthentication',
@@ -79,10 +97,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware', 
 ]
 
-CORS_ALLOW_ORIGINS = [
-    "https://192.168.31.5:3000",
-    '*',
-]
+CORS_ALLOW_ORIGINS = get_setting('CORS_ALLOW_ORIGINS')
 
 ROOT_URLCONF = 'backPython.urls'
 
@@ -108,15 +123,19 @@ WSGI_APPLICATION = 'backPython.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+DATABASES = { 
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'company_python',
-        'USER': 'dominuss',
-        'PASSWORD': '123456',
-        'HOST' : '127.0.0.1',
-        'PORT' : '5432',
-    }
+        'ENGINE': get_setting('ENGINE'),
+        'NAME': get_setting('NAME'),
+        'USER': get_setting("USER"),
+        'PASSWORD': get_setting('PASSWORD'),
+        'HOST' : get_setting('HOST'),
+        'PORT' : get_setting('PORT'),
+    },
+    # 'default': {
+        # 'ENGINE' : 'django.db.backends.sqlite3',
+        # 'NAME' : 'test_db'
+    # }
 }
 
 AUTH_USER_MODEL = "main.User"

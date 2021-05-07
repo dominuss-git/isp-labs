@@ -195,24 +195,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     }, settings.SECRET_KEY, algorithm='HS256')
 
     return token.decode('utf-8')
-
-
-
-
-# class UserManager(models.Manager):#BaseUserManager):
-
-
-# class User(models.Model):#AbstractBaseUser, PermissionsMixin):
-
-#   is_superuser = models.BooleanField(default=False)
-#   is_staff = models.BooleanField(default=False)
-#     return self.name
-
-#   def _generate_jwt_token(self):
-#     dt = datetime.now() + datetime.timedelta(hours=1)
-#     token = jwt.encode({
-#       'id': self.pk,
-#       'password': self.password
-#     }, 'super secret key', algorithm='HS256')
-
-#     return token

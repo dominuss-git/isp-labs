@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 export const User = ({ user, numbering }) => {
   const workerId = `/workers/${user.id}`;
-  // let date = new Date(user.date);
-  // date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  let date = new Date(user.date);
+  date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
   console.log(user)
   return (
     <tr className="link__bg">
@@ -44,7 +44,7 @@ export const User = ({ user, numbering }) => {
         )}
       </td>
       <td>
-        {user.date}
+        {date}
       </td>
       <td>
         <NavLink

@@ -26,11 +26,15 @@ export const Worker = ({
           history.push('/departments');
           return;
         }
-        return;
+        
+        if(data.status === 400) {
+          message(data.body.message) 
+
+        }
       }
       message("You can't dissmiss department boss");
     } else {
-      const data = await request(`/department/${id}/workers/${user.id}`, 'DELETE');
+      const data = await request(`/department/${id}/workers/${user.id}`, 'DELETE', null, { Authorization : 'Bearer ' + token });
 
       if (data.status === 200) {
         message(data.body.message);

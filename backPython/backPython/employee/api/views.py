@@ -15,12 +15,11 @@ class EmployeeAPIView(APIView):
 
   def post(self, request):
     try:
-
       if not request.data:
-        return Response('No data', status = status.HTTP_200_OK)
+        return Response('No data', status = status.HTTP_400_BAD_REQUEST)
 
       employee = Employee.objects.create_c(userId=request.data.get('userId'), departmentId=request.data.get('departmentId'))
-      # employee.save()
+
       return Response(
         {
           'id' : int(employee.id),
@@ -38,7 +37,6 @@ class EmployeeDataAPIView(APIView):
   def get(self, request, id=1):
     try:
       employee = Employee.objects.find_by_user_id(userId=int(id))
-      print(employee, id)
       if employee == []:
         return Response({"message" : 'Not found'}, status=status.HTTP_400_BAD_REQUEST)
 

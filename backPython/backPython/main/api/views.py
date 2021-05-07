@@ -17,7 +17,7 @@ class RegistrationAPIView(APIView):
 
       if User.objects.find_by_email(user.get('email')):
         return Response({"message" :'User with same email is exist'}, status=status.HTTP_400_BAD_REQUEST)
-
+      
       if len(user.get('password')) < 8:
         return Response({"message" : "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -51,17 +51,16 @@ class LoginAPIView(APIView):
   serializer_class = LoginSerializer
 
   def post(self, request):
-    try:
-      user = request.data.get('user', {})
-
+    # try:
+      user = request.data.get('user')
       serializer = self.serializer_class(data=user)
       serializer.is_valid(raise_exception=True)
 
       user = User.objects.filter(email=serializer.data.get('email')).values_list()
-
+      # print(user)
       return Response({"userId" : user[0][0], "token" : serializer.data.get('token')}, status=status.HTTP_200_OK)
-    except:
-      return Response('Internal server error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # except:
+      # return Response('Internal server error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class UserAPIView(APIView):
   permission_classes = (IsAuthenticated, )

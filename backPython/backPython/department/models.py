@@ -21,6 +21,16 @@ class DepartmentManager(models.Manager):
       'update' : department.values()[0].get('update')
     })
 
+  # def modify(self, id, email):
+    
+
+  def remove(self, id):
+    self.filter(id=id).delete()
+
+    return {
+      'message' : 'Department deleted'
+    }
+
   def find_all(self):
     departments = self.filter()
     department_out = []
@@ -37,7 +47,7 @@ class DepartmentManager(models.Manager):
     return department_out
 
   def create_c(self, name, type, bossId):
-    boss = User.objects.find_by_id(bossId)
+    boss = User.objects.filter(id = bossId)
     
     if not boss.values():
       return {'message' : 'Boss not found'}

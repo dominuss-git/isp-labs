@@ -10,7 +10,6 @@ from main.models import User
 class EmployeeManager(models.Manager):
 
   def find(self, userId, departmentId):
-    print(userId, departmentId)
     employee = self.filter(userId=userId, departmentId=departmentId)
     if not employee:
       return ({"message" : 'Not found'})
@@ -34,7 +33,7 @@ class EmployeeManager(models.Manager):
   def create_c(self, userId, departmentId):
     if not self.filter(userId=userId).values_list():
       
-      user = User.objects.find_by_id(userId)
+      user = User.objects.filter(id=userId)
 
       if not user.values():
         return {'message' : 'User not found'}
@@ -44,7 +43,10 @@ class EmployeeManager(models.Manager):
       if not department.values():
         return {'message' : 'Department not found'}
 
-      return self.create(userId=user.first(), departmentId=department.first())
+      employee = Employee(userId=user.first(), departmentId=department.first())
+      employee.save()
+
+      return employee
 
     return {'message': 'User work in another department'}    
 
@@ -60,6 +62,18 @@ class EmployeeManager(models.Manager):
       })
 
     return employee_out
+
+  def remove(self, userId, departmentId):
+    self.filter(userId=userId, departmentId=departmentId).delete()
+    return {
+      'message' : 'Employee is delete'
+    }
+
+  def remove_all(self, departmentId):
+    self.filter(departmentId=departmentId).delete()
+    return {
+      'message' : 'Department is delete'
+    }
 
 class Employee(models.Model):
   userId = models.ForeignKey(User, on_delete=models.CASCADE, null=False)

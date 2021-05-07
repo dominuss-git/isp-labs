@@ -9,13 +9,11 @@ export const Department = ({ data }) => {
   const message = useMessage();
   const history = useHistory();
 
-  // let date = new Date(data.date);
-  // console.log(data)
-  // date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
   let boss = null;
   const dispatch = useDispatch();
   const id = useSelector((state) => state.login.id);
   const dep = `/departments/${data.id}`;
+  const token = useSelector((state) => state.login.token)
   const { request } = useHttp();
   data.users.map((val, i) => {
     if (val.id === Number(data.bossId)) {
@@ -24,9 +22,10 @@ export const Department = ({ data }) => {
   });
 
   const deleteHandler = async () => {
-    const isDeleted = await request(`/department/${data.id}`, 'DELETE', { userId: String(id) });
+    const isDeleted = await request(`/department/${data.id}`, 'DELETE', { userId: String(id) }, { Authorization : 'Bearer ' + token });
+
     if (isDeleted.status === 400) {
-      message(isDeleted.body.message);
+      message(isDeleted.body);
       history.push('/departments');
     } else if (isDeleted.status === 200) {
       message(isDeleted.body.message);

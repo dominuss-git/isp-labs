@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 
-from .views import DepartmentAPIView, DepartmentReviewAPIView, DepartmentCreateAPIView, DepartmentChangeAPIView
+from .views import DepartmentAPIView, DepartmentReviewAPIView, DepartmentCreateAPIView, DepartmentChangeAPIView, RemoveEmployeeAPIView
 
 app_name = 'department'
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
   # url('login/', LoginAPIView.as_view()),
   path('department/<int:id>/change/', DepartmentChangeAPIView.as_view()),
   path('department/<int:id>/', DepartmentAPIView.as_view()),
+  path('department/<int:dep>/workers/<int:id>/', RemoveEmployeeAPIView.as_view()),
   path('department/', DepartmentReviewAPIView.as_view()),
   path('department/create/', DepartmentCreateAPIView.as_view()),
 
